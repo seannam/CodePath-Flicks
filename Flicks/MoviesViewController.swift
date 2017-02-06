@@ -45,7 +45,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
             
             // Hide HUD once the network request comes back 
             MBProgressHUD.hide(for: self.view, animated: true)
-                        
+            
             if let data = data {
                 if let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary {
                     
