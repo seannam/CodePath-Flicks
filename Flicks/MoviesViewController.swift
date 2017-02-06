@@ -12,34 +12,46 @@ import MBProgressHUD
 
 class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
+    let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
+    let refreshControl = UIRefreshControl()
+    
     @IBOutlet weak var tableView: UITableView!
+    
     var movies: [NSDictionary]? = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.refreshControl.addTarget(self, action: #selector(loadMovies), for: UIControlEvents.valueChanged)
+        
+        tableView.insertSubview(self.refreshControl, at: 0)
+        
         tableView.dataSource = self
         tableView.delegate = self
         
-        let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
+        self.loadMovies()
+    }
+    
+    func loadMovies() {
+        
         let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)")!
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
-        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
 
+        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
+        
         // Display HUD right before the request is made
         MBProgressHUD.showAdded(to: self.view, animated: true)
-
         
         let task: URLSessionDataTask = session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
             
-            // Hide HUD once the network request comes back (must be done on main UI thread)
+            // Hide HUD once the network request comes back 
             MBProgressHUD.hide(for: self.view, animated: true)
-            
+                        
             if let data = data {
                 if let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary {
                     
                     self.movies = dataDictionary["results"] as? [NSDictionary]
                     self.tableView.reloadData()
+                    self.refreshControl.endRefreshing()
                 }
             }
             
@@ -47,9 +59,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         task.resume()
         
-        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
