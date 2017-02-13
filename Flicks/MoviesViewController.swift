@@ -33,6 +33,22 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.delegate = self
         
         self.loadMovies()
+        
+        self.navigationItem.title = "Movies"
+        
+        if let navigationBar = navigationController?.navigationBar {
+            
+            let shadow = NSShadow()
+            shadow.shadowColor = UIColor.black.withAlphaComponent(0.5)
+            //shadow.shadowOffset = CGSizeMake(2, 2);
+            shadow.shadowBlurRadius = 4;
+            navigationBar.titleTextAttributes = [
+                NSFontAttributeName : UIFont.boldSystemFont(ofSize: 22),
+                NSForegroundColorAttributeName : UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.8),
+                NSShadowAttributeName : shadow
+            ]
+        }
+        
     }
     
     func loadMovies() {
@@ -98,7 +114,12 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         }
         return cell
     }
-
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+    }
+    
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
