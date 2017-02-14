@@ -17,7 +17,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var overviewLabel: UILabel!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var infoView: UIView!
-    @IBOutlet weak var castLabel: UILabel!
+
     
     let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
     var movie: NSDictionary!

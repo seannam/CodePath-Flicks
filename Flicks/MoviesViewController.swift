@@ -16,6 +16,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     let refreshControl = UIRefreshControl()
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var networkError: UILabel!
     
     var movies: [NSDictionary]? = []
     
@@ -31,8 +32,9 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.dataSource = self
         tableView.delegate = self
         
+        self.networkError.isHidden = true
+        
         self.loadMovies()
-        print(movies)
         
         self.navigationItem.title = "Movies"
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
@@ -64,6 +66,9 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         let task: URLSessionDataTask = session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
             
+            if error != nil {
+                self.networkError.isHidden = false
+            }
             // Hide HUD once the network request comes back 
             MBProgressHUD.hide(for: self.view, animated: true)
             
