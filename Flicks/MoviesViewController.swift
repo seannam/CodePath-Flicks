@@ -85,6 +85,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let movies = movies {
             return movies.count;
@@ -117,7 +118,6 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         tableView.deselectRow(at: indexPath, animated: true)
-        
     }
     
     // MARK: - Navigation
@@ -130,9 +130,11 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         let cell = sender as! UITableViewCell
         let indexPath = tableView.indexPath(for: cell)
         let movie = self.movies![(indexPath?.row)!]
-         
+        let posterPath = movie["poster_path"] as? String
+        
         let detailViewController = segue.destination as! DetailViewController
         detailViewController.movie = movie
+        detailViewController.posterPath = posterPath
         
         print("prepare for segue called from movieviewcontroller")
     }
