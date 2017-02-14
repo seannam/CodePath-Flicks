@@ -149,7 +149,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                     <view alpha="0.80000000000000004" contentMode="scaleToFill" misplaced="YES" id="h9F-x7-Rgs">
-                                        <rect key="frame" x="0.0" y="250" width="320" height="260"/>
+                                        <rect key="frame" x="0.0" y="250" width="320" height="334"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4x3-QM-GEy">
@@ -159,8 +159,22 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Overview" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vi6-e2-uVQ">
-                                                <rect key="frame" x="8" y="45" width="304" height="24"/>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Popularity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="RIZ-Q5-ln3">
+                                                <rect key="frame" x="8" y="40" width="141" height="29"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Rating:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="deH-gb-FbL">
+                                                <rect key="frame" x="179" y="40" width="141" height="29"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Overview" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vi6-e2-uVQ">
+                                                <rect key="frame" x="8" y="42" width="304" height="24"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -178,7 +192,9 @@
                     <connections>
                         <outlet property="infoView" destination="h9F-x7-Rgs" id="ck7-3w-AnM"/>
                         <outlet property="overviewLabel" destination="vi6-e2-uVQ" id="YiS-gl-eCm"/>
+                        <outlet property="popularityLabel" destination="RIZ-Q5-ln3" id="Rh0-gG-Wlk"/>
                         <outlet property="posterImageView" destination="cEa-sa-itv" id="nX2-N0-TVV"/>
+                        <outlet property="ratingLabel" destination="deH-gb-FbL" id="BtQ-Ko-7Sm"/>
                         <outlet property="scrollView" destination="PBt-Aj-h9E" id="LcM-1g-XsB"/>
                         <outlet property="titleLabel" destination="4x3-QM-GEy" id="y7r-9A-oTJ"/>
                     </connections>

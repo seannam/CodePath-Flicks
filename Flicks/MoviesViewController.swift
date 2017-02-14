@@ -204,12 +204,22 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         let movie = self.movies![(indexPath?.row)!]
         let posterPath = movie["poster_path"] as? String
         
+        let popularity = movie["popularity"] as! Double
+        print(popularity)
+        let rating = movie["vote_average"] as! Double
+        print(rating)
+        
         let movieId = movie["id"] as? Int
         
         let detailViewController = segue.destination as! DetailViewController
         detailViewController.movie = movie
         detailViewController.posterPath = posterPath
+        /*
         detailViewController.movieId = movieId
+        
+        detailViewController.popularity = popularity
+        detailViewController.rating = rating
+        */
         
         //print("prepare for segue called from movieviewcontroller")
     }

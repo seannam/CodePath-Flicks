@@ -17,6 +17,8 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var overviewLabel: UILabel!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var infoView: UIView!
+    @IBOutlet weak var popularityLabel: UILabel!
+    @IBOutlet weak var ratingLabel: UILabel!
 
     
     let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
@@ -25,6 +27,8 @@ class DetailViewController: UIViewController {
     var endpoint: String!
     var movieId: Int!
     var castMembers: [NSDictionary]? = []
+    var popularity: Double!
+    var rating: Double!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +44,9 @@ class DetailViewController: UIViewController {
         overviewLabel.text = overview as? String
         
         overviewLabel.sizeToFit()
+        
+        //popularityLabel.text = popularity as! String
+        //ratingLabel.text = rating as! String
         
         let smallImageUrl = "https://image.tmdb.org/t/p/w45" + posterPath
         let largeImageUrl = "https://image.tmdb.org/t/p/original" + posterPath
