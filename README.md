@@ -79,8 +79,8 @@ The following **additional** features are implemented:
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1. 
-2. 
+1. Could not get CollectionView to load. I can see that the images are loaded and fade in, but nothing shows when I switch to CollectionView.
+2. Toggle options for NavBar buttons/items.
 
 ## Video Walkthrough 
 

@@ -21,6 +21,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var switchToCollectionViewButton: UIBarButtonItem!
+    @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
     @IBOutlet weak var switchToTableViewButton: UIBarButtonItem!
     
@@ -31,10 +32,10 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView.isHidden = true
+        //collectionView.isHidden = true
         self.networkError.isHidden = true
         switchToTableViewButton.isEnabled = false
-        switchToCollectionViewButton.isEnabled = false
+        //switchToCollectionViewButton.isEnabled = false
 
         self.refreshControl.addTarget(self, action: #selector(loadMovies), for: UIControlEvents.valueChanged)
         
@@ -45,6 +46,13 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         collectionView.delegate = self
         collectionView.dataSource = self
+        
+        /*
+        flowLayout.scrollDirection = .vertical
+        flowLayout.minimumLineSpacing = 0
+        flowLayout.minimumInteritemSpacing = 0
+        flowLayout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0)
+        */
         
         self.loadMovies()
         
@@ -99,14 +107,14 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     @IBAction func tapForCollectionView(_ sender: Any) {
-        collectionView.isHidden = false
+        //collectionView.isHidden = false
         tableView.isHidden = true
         switchToTableViewButton.isEnabled = true
         switchToCollectionViewButton.isEnabled = false
         
     }
     @IBAction func tapForTableView(_ sender: Any) {
-        collectionView.isHidden = true
+        //collectionView.isHidden = true
         tableView.isHidden = false
         switchToTableViewButton.isEnabled = false
         switchToCollectionViewButton.isEnabled = true
@@ -141,6 +149,11 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
     func fadeImageIn(_ cell: MovieCell, _ movie: NSDictionary) {
         //let baseUrl = "https://image.tmdb.org/t/p/w500/"
         
@@ -177,9 +190,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         }
 
     }
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
+
     
     // MARK: - Navigation
     
@@ -215,6 +226,14 @@ extension MoviesViewController: UICollectionViewDataSource, UICollectionViewDele
             return 0
         }
     }
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        if let movies = movies {
+            return movies.count;
+        } else {
+            return 0
+        }
+    }
+    
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieCollectionCell", for: indexPath as IndexPath) as! MovieCollectionCell
