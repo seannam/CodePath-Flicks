@@ -35,6 +35,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         self.loadMovies()
         
         self.navigationItem.title = "Movies"
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
         
         if let navigationBar = navigationController?.navigationBar {
             
@@ -95,7 +96,6 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
     }
     
-    
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
@@ -136,6 +136,6 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         detailViewController.movie = movie
         detailViewController.posterPath = posterPath
         
-        print("prepare for segue called from movieviewcontroller")
+        //print("prepare for segue called from movieviewcontroller")
     }
 }
