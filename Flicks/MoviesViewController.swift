@@ -14,9 +14,15 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
 
     let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
     let refreshControl = UIRefreshControl()
+    let baseUrl = "https://image.tmdb.org/t/p/w500/"
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var networkError: UILabel!
+    
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var switchToCollectionViewButton: UIBarButtonItem!
+    
+    @IBOutlet weak var switchToTableViewButton: UIBarButtonItem!
     
     var movies: [NSDictionary]? = []
     
@@ -24,7 +30,12 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
+        collectionView.isHidden = true
+        self.networkError.isHidden = true
+        switchToTableViewButton.isEnabled = false
+        switchToCollectionViewButton.isEnabled = false
+
         self.refreshControl.addTarget(self, action: #selector(loadMovies), for: UIControlEvents.valueChanged)
         
         tableView.insertSubview(self.refreshControl, at: 0)
@@ -32,7 +43,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.dataSource = self
         tableView.delegate = self
         
-        self.networkError.isHidden = true
+        collectionView.delegate = self
+        collectionView.dataSource = self
         
         self.loadMovies()
         
@@ -86,6 +98,20 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         task.resume()
     }
     
+    @IBAction func tapForCollectionView(_ sender: Any) {
+        collectionView.isHidden = false
+        tableView.isHidden = true
+        switchToTableViewButton.isEnabled = true
+        switchToCollectionViewButton.isEnabled = false
+        
+    }
+    @IBAction func tapForTableView(_ sender: Any) {
+        collectionView.isHidden = true
+        tableView.isHidden = false
+        switchToTableViewButton.isEnabled = false
+        switchToCollectionViewButton.isEnabled = true
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -111,7 +137,12 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         cell.titleLabel.text = title
         cell.overviewLabel.text = overview
         
-        let baseUrl = "https://image.tmdb.org/t/p/w500/"
+        fadeImageIn(cell, movie)
+        
+        return cell
+    }
+    func fadeImageIn(_ cell: MovieCell, _ movie: NSDictionary) {
+        //let baseUrl = "https://image.tmdb.org/t/p/w500/"
         
         if let posterPath = movie["poster_path"] as? String {
             //let imageUrl = NSURL(string: baseUrl + posterPath)
@@ -142,14 +173,10 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                     // do something for the failure condition
                     print("error loading image")
             })
-
+            
         }
-        
-        
-        
-        return cell
+
     }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -177,4 +204,70 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     
+}
+
+extension MoviesViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if let movies = movies {
+            return movies.count;
+        } else {
+            return 0
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieCollectionCell", for: indexPath as IndexPath) as! MovieCollectionCell
+        
+        let movie = movies![indexPath.row]
+        let title = movie["title"] as! String
+        
+        cell.titleLabel.text = title
+        
+        if let posterPath = movie["poster_path"] as? String {
+            let imageUrl = NSURL(string: baseUrl + posterPath)
+            //let imageUrl = baseUrl + posterPath
+            cell.posterView.setImageWith(imageUrl! as URL)
+        }
+        
+        //fadePosterImagesIn(cell, movie)
+        
+        return cell
+    }
+    func fadePosterImagesIn(_ cell: MovieCollectionCell, _ movie: NSDictionary) {
+        //let baseUrl = "https://image.tmdb.org/t/p/w500/"
+        
+        if let posterPath = movie["poster_path"] as? String {
+            //let imageUrl = NSURL(string: baseUrl + posterPath)
+            let imageUrl = baseUrl + posterPath
+            //cell.posterView.setImageWith(imageUrl! as URL)
+            
+            let imageRequest = NSURLRequest(url: NSURL(string: imageUrl)! as URL)
+            
+            cell.posterView.setImageWith(
+                imageRequest as URLRequest,
+                placeholderImage: nil,
+                success: { (imageRequest, imageResponse, image) -> Void in
+                    
+                    // imageResponse will be nil if the image is cached
+                    if imageResponse != nil {
+                        print("Image was NOT cached, fade in image")
+                        cell.posterView.alpha = 0.0
+                        cell.posterView.image = image
+                        UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                            cell.posterView.alpha = 1.0
+                        })
+                    } else {
+                        print("Image was cached so just update the image")
+                        cell.posterView.image = image
+                    }
+            },
+                failure: { (imageRequest, imageResponse, error) -> Void in
+                    // do something for the failure condition
+                    print("error loading image")
+            })
+            
+        }
+        
+    }
 }

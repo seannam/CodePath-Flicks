@@ -66,12 +66,64 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="CTv-NF-Lgo">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="bFy-0q-YN6">
+                                    <size key="itemSize" width="155" height="227"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="MovieCollectionCell" id="rmR-jQ-GzB" customClass="MovieCollectionCell" customModule="Flicks" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="155" height="227"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="155" height="227"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" id="Ypk-MF-HRZ">
+                                                    <rect key="frame" x="8" y="8" width="139" height="188"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VG3-ZN-IWM">
+                                                    <rect key="frame" x="4" y="190" width="147" height="37"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </view>
+                                        <connections>
+                                            <outlet property="posterView" destination="Ypk-MF-HRZ" id="Zh3-gQ-TYP"/>
+                                            <outlet property="titleLabel" destination="VG3-ZN-IWM" id="k8x-0N-rmU"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" id="nFl-RN-cxd"/>
+                    <navigationItem key="navigationItem" id="nFl-RN-cxd">
+                        <barButtonItem key="leftBarButtonItem" image="collection_view" id="oC8-OY-j06">
+                            <connections>
+                                <action selector="tapForCollectionView:" destination="BYZ-38-t0r" id="bMv-45-kTw"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="list_view" id="mUE-9j-BaG">
+                            <connections>
+                                <action selector="tapForTableView:" destination="BYZ-38-t0r" id="76n-wm-wmF"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="collectionView" destination="CTv-NF-Lgo" id="fW1-ON-oID"/>
                         <outlet property="networkError" destination="Z5O-iq-uQl" id="Nfn-iC-R5c"/>
+                        <outlet property="switchToCollectionViewButton" destination="oC8-OY-j06" id="nhG-bQ-YJz"/>
+                        <outlet property="switchToTableViewButton" destination="mUE-9j-BaG" id="utE-Rb-OV4"/>
                         <outlet property="tableView" destination="KoI-6X-bme" id="5Pe-gN-OHz"/>
                     </connections>
                 </viewController>
@@ -153,6 +205,10 @@
             <point key="canvasLocation" x="199" y="154"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="collection_view" width="32" height="32"/>
+        <image name="list_view" width="32" height="32"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
