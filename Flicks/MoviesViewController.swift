@@ -20,10 +20,10 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var networkError: UILabel!
     
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var switchToCollectionViewButton: UIBarButtonItem!
+    //@IBOutlet weak var switchToCollectionViewButton: UIBarButtonItem!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
-    @IBOutlet weak var switchToTableViewButton: UIBarButtonItem!
+    //@IBOutlet weak var switchToTableViewButton: UIBarButtonItem!
     
     var movies: [NSDictionary]? = []
     
@@ -34,7 +34,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         //collectionView.isHidden = true
         self.networkError.isHidden = true
-        switchToTableViewButton.isEnabled = false
+        //switchToTableViewButton.isEnabled = false
         //switchToCollectionViewButton.isEnabled = false
 
         self.refreshControl.addTarget(self, action: #selector(loadMovies), for: UIControlEvents.valueChanged)
@@ -94,7 +94,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
             
             if let data = data {
                 if let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary {
-                    
+                    self.networkError.isHidden = true
                     self.movies = dataDictionary["results"] as? [NSDictionary]
                     self.tableView.reloadData()
                     self.refreshControl.endRefreshing()
@@ -105,7 +105,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         task.resume()
     }
-    
+    /*
     @IBAction func tapForCollectionView(_ sender: Any) {
         //collectionView.isHidden = false
         tableView.isHidden = true
@@ -119,7 +119,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         switchToTableViewButton.isEnabled = false
         switchToCollectionViewButton.isEnabled = true
     }
-    
+    */
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -204,12 +204,14 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         let movie = self.movies![(indexPath?.row)!]
         let posterPath = movie["poster_path"] as? String
         
+        /*
         let popularity = movie["popularity"] as! Double
         print(popularity)
         let rating = movie["vote_average"] as! Double
         print(rating)
-        
+ 
         let movieId = movie["id"] as? Int
+        */
         
         let detailViewController = segue.destination as! DetailViewController
         detailViewController.movie = movie

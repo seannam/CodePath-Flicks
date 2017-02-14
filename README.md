@@ -81,12 +81,13 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 1. Could not get CollectionView to load. I can see that the images are loaded and fade in, but nothing shows when I switch to CollectionView.
 2. Toggle options for NavBar buttons/items.
+3. So many errors trying to implement small features. Ended up being unable to implement any of them.
 
 ## Video Walkthrough 
 
 Here's a walkthrough of implemented user stories:
 
-<img src='' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://imgur.com/923cdsL.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
