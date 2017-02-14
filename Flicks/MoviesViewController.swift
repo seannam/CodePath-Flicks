@@ -12,15 +12,14 @@ import MBProgressHUD
 
 class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-    
     let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
     let refreshControl = UIRefreshControl()
-    
-    var endpoint: String!
     
     @IBOutlet weak var tableView: UITableView!
     
     var movies: [NSDictionary]? = []
+    
+    var endpoint: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +32,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.delegate = self
         
         self.loadMovies()
+        print(movies)
         
         self.navigationItem.title = "Movies"
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
@@ -79,7 +79,6 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         }
         
         task.resume()
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -132,10 +131,15 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         let movie = self.movies![(indexPath?.row)!]
         let posterPath = movie["poster_path"] as? String
         
+        let movieId = movie["id"] as? Int
+        
         let detailViewController = segue.destination as! DetailViewController
         detailViewController.movie = movie
         detailViewController.posterPath = posterPath
+        detailViewController.movieId = movieId
         
         //print("prepare for segue called from movieviewcontroller")
     }
+    
+    
 }

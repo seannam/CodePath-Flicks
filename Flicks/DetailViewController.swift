@@ -17,10 +17,14 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var overviewLabel: UILabel!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var infoView: UIView!
+    @IBOutlet weak var castLabel: UILabel!
     
-    
+    let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
     var movie: NSDictionary!
     var posterPath: String!
+    var endpoint: String!
+    var movieId: Int!
+    var castMembers: [NSDictionary]? = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,9 +91,37 @@ class DetailViewController: UIViewController {
             posterImageView.setImageWith(imageUrl! as URL)
         }
          */
-        //print(movie)
+        
+        //loadCast()
+        //let cast = castMembers[IndexPath]
+        //let member = cast["name"]
     }
-
+    func loadCast() {
+        endpoint = "credits"
+        let url = URL(string: "https://api.themoviedb.org/3/movie/\(movieId!)/\(endpoint!)?api_key=\(apiKey)")!
+        let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
+        
+        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
+        
+        
+        let task: URLSessionDataTask = session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
+            
+            // Hide HUD once the network request comes back
+            //MBProgressHUD.hide(for: self.view, animated: true)
+            
+            if let data = data {
+                if let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary {
+                    
+                    self.castMembers = dataDictionary["cast"] as? [NSDictionary]
+                  
+                }
+            }
+            
+        }
+        
+        task.resume()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
