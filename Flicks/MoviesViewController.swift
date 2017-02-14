@@ -44,7 +44,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
             shadow.shadowBlurRadius = 4;
             navigationBar.titleTextAttributes = [
                 NSFontAttributeName : UIFont.boldSystemFont(ofSize: 22),
-                NSForegroundColorAttributeName : UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.8),
+                NSForegroundColorAttributeName : UIColor(red: 0.1, green: 0.1, blue: 0.8, alpha: 0.8),
                 NSShadowAttributeName : shadow
             ]
         }
