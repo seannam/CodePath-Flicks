@@ -19,9 +19,9 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var networkError: UILabel!
     
-    @IBOutlet weak var collectionView: UICollectionView!
+    //@IBOutlet weak var collectionView: UICollectionView!
     //@IBOutlet weak var switchToCollectionViewButton: UIBarButtonItem!
-    @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
+    //@IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
     //@IBOutlet weak var switchToTableViewButton: UIBarButtonItem!
     
@@ -32,27 +32,13 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //collectionView.isHidden = true
         self.networkError.isHidden = true
-        //switchToTableViewButton.isEnabled = false
-        //switchToCollectionViewButton.isEnabled = false
-
         self.refreshControl.addTarget(self, action: #selector(loadMovies), for: UIControlEvents.valueChanged)
         
         tableView.insertSubview(self.refreshControl, at: 0)
         
         tableView.dataSource = self
         tableView.delegate = self
-        
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        
-        /*
-        flowLayout.scrollDirection = .vertical
-        flowLayout.minimumLineSpacing = 0
-        flowLayout.minimumInteritemSpacing = 0
-        flowLayout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0)
-        */
         
         self.loadMovies()
         
@@ -199,106 +185,40 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
-        let cell = sender as! UITableViewCell
-        let indexPath = tableView.indexPath(for: cell)
-        let movie = self.movies![(indexPath?.row)!]
-        let posterPath = movie["poster_path"] as? String
+        if(segue.identifier == "detailedSegue")
+        {
+            let cell = sender as! UITableViewCell
+            let indexPath = tableView.indexPath(for: cell)
+            let movie = self.movies![(indexPath?.row)!]
+            let posterPath = movie["poster_path"] as? String
+            
+            /*
+            let popularity = movie["popularity"] as! Double
+            print(popularity)
+            let rating = movie["vote_average"] as! Double
+            print(rating)
+     
+            let movieId = movie["id"] as? Int
+            */
+            
+            let detailViewController = segue.destination as! DetailViewController
+            detailViewController.movie = movie
+            detailViewController.posterPath = posterPath
+            /*
+            detailViewController.movieId = movieId
+            
+            detailViewController.popularity = popularity
+            detailViewController.rating = rating
+            */
+            
+            //print("prepare for segue called from movieviewcontroller")
+        }
         
-        /*
-        let popularity = movie["popularity"] as! Double
-        print(popularity)
-        let rating = movie["vote_average"] as! Double
-        print(rating)
- 
-        let movieId = movie["id"] as? Int
-        */
-        
-        let detailViewController = segue.destination as! DetailViewController
-        detailViewController.movie = movie
-        detailViewController.posterPath = posterPath
-        /*
-        detailViewController.movieId = movieId
-        
-        detailViewController.popularity = popularity
-        detailViewController.rating = rating
-        */
-        
-        //print("prepare for segue called from movieviewcontroller")
+        else if(segue.identifier == "collectionSegue") {
+            let movieCollectionsViewController = segue.destination as! MovieCollectionsViewController
+            movieCollectionsViewController.movies = movies
+        }
     }
-    
-    
 }
 
-extension MoviesViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let movies = movies {
-            return movies.count;
-        } else {
-            return 0
-        }
-    }
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        if let movies = movies {
-            return movies.count;
-        } else {
-            return 0
-        }
-    }
-    
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieCollectionCell", for: indexPath as IndexPath) as! MovieCollectionCell
-        
-        let movie = movies![indexPath.row]
-        let title = movie["title"] as! String
-        
-        cell.titleLabel.text = title
-        
-        if let posterPath = movie["poster_path"] as? String {
-            let imageUrl = NSURL(string: baseUrl + posterPath)
-            //let imageUrl = baseUrl + posterPath
-            cell.posterView.setImageWith(imageUrl! as URL)
-        }
-        
-        //fadePosterImagesIn(cell, movie)
-        
-        return cell
-    }
-    func fadePosterImagesIn(_ cell: MovieCollectionCell, _ movie: NSDictionary) {
-        //let baseUrl = "https://image.tmdb.org/t/p/w500/"
-        
-        if let posterPath = movie["poster_path"] as? String {
-            //let imageUrl = NSURL(string: baseUrl + posterPath)
-            let imageUrl = baseUrl + posterPath
-            //cell.posterView.setImageWith(imageUrl! as URL)
-            
-            let imageRequest = NSURLRequest(url: NSURL(string: imageUrl)! as URL)
-            
-            cell.posterView.setImageWith(
-                imageRequest as URLRequest,
-                placeholderImage: nil,
-                success: { (imageRequest, imageResponse, image) -> Void in
-                    
-                    // imageResponse will be nil if the image is cached
-                    if imageResponse != nil {
-                        print("Image was NOT cached, fade in image")
-                        cell.posterView.alpha = 0.0
-                        cell.posterView.image = image
-                        UIView.animate(withDuration: 0.3, animations: { () -> Void in
-                            cell.posterView.alpha = 1.0
-                        })
-                    } else {
-                        print("Image was cached so just update the image")
-                        cell.posterView.image = image
-                    }
-            },
-                failure: { (imageRequest, imageResponse, error) -> Void in
-                    // do something for the failure condition
-                    print("error loading image")
-            })
-            
-        }
-        
-    }
-}
+

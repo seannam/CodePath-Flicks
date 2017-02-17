@@ -37,8 +37,8 @@ class DetailViewController: UIViewController {
         
         scrollView.contentSize = CGSize(width: scrollView.frame.size.width, height: infoView.frame.origin.y + infoView.frame.size.height)
         
-        let title = movie["title"]
-        titleLabel.text = title as? String
+        //let title = movie["title"]
+        //titleLabel.text = title as? String
         
         let overview = movie["overview"]
         overviewLabel.text = overview as? String
